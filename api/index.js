@@ -7,7 +7,7 @@ class Api {
     newsletter(email) {
         return new Promise((resolve, reject) => {
             axios
-            .post(`${this.apiUrl}newsletter`, { 
+            .post(`${this.apiUrl}/newsletter`, { 
                 email
             }, {
                 headers: {

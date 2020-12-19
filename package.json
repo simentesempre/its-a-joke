@@ -3,13 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": " next build",
-    "start": "next start"
+    "next-dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "run-server": "node server",
+    "dev": "concurrently \"npm run next-dev\" \"npm run run-server\""
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.25",
     "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1"
