@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import YouTube from 'react-youtube'
 import axios from 'axios'
 import Logo from './assets/images/logo.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 
 const Landing = () => {
 
@@ -54,6 +56,11 @@ const Landing = () => {
       <p>
         <strong className="text-uppercase">
           Available on 31.12.2020
+        </strong>
+      </p>
+      <p>
+        <strong className="text-uppercase">
+          <a target="_blank" rel="noreferrer" href="https://www.instagram.com/itsajokegames/">FOLLOW US ON <FontAwesomeIcon icon={faInstagram} /></a>
         </strong>
       </p>
       {subscriptionMessage ? <p>
