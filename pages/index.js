@@ -1,14 +1,13 @@
 import Head from 'next/head'
-import Newsletter from '../components/Newsletter'
+import SplashPage from '../components/SplashPage'
 
 const Home = () => {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{process.env.siteTitle}</title>
       </Head>
-      <Newsletter classes={['uno','due']} />
+      <SplashPage />
     </div>
   )
 }

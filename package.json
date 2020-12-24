@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "next-dev": "next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
-    "run-server": "node server",
-    "dev": "concurrently \"npm run next-dev\" \"npm run run-server\""
+    "export": "next export"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@mailchimp/mailchimp_marketing": "^3.0.25",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
@@ -20,6 +21,8 @@
     "express": "^4.17.1",
     "next": "10.0.3",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-fade-in": "^1.1.1",
+    "sass": "^1.30.0"
   }
 }

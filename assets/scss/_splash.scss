@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap');
+
+$yellow: #fce000;
+$blu: #000421;
+
+.splash-wrapper {
+    background-color: $yellow;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .splash {
+        font-family: 'Teko', sans-serif;
+        font-size: 25px;
+        color: $blu;
+        font-weight: bold;
+        text-transform: uppercase;    
+        text-align: center;     
+        .section {
+            max-width: 500px;
+            width: 100%;
+            padding: 0 20px;
+            margin: 0 auto;
+            &.mask, &.logo {
+                img {
+                    width: 100%;
+                }
+            }
+            &.logo {
+                width: 50%;
+            }
+            .social {
+                display: flex;
+                justify-content: center;
+                a {
+                    display: block;
+                    margin: 0 5px;
+                    color: $blu;
+                    svg {
+                        width: 30px;
+                    }
+                }
+            }
+        }
+        p {
+            margin-bottom: 20px;
+        }
+    }
+}
