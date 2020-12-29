@@ -9,7 +9,7 @@ const SplashPage = () => {
         <Head>
             <script async src="https://www.googletagmanager.com/gtag/js?id=G-CGMJ6RLDVZ"></script>
             <script>
-                window.dataLayer = window.dataLayer || []
+                var window.dataLayer = window.dataLayer || []
                 function gtag(){dataLayer.push(arguments)}
                 gtag('js', new Date())
                 gtag('config', 'G-CGMJ6RLDVZ')
