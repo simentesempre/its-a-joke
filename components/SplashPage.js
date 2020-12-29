@@ -7,6 +7,13 @@ const SplashPage = () => {
   return (
     <>
         <Head>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-CGMJ6RLDVZ"></script>
+            <script>
+                window.dataLayer = window.dataLayer || []
+                function gtag(){dataLayer.push(arguments)}
+                gtag('js', new Date())
+                gtag('config', 'G-CGMJ6RLDVZ')
+            </script>
             <link rel="apple-touch-icon" sizes="57x57" href="/icons/splash/apple-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/icons/splash/apple-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="/icons/splash/apple-icon-72x72.png"/>
