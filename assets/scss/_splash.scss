@@ -6,7 +6,6 @@ $blu: #000421;
 .splash-wrapper {
     background-color: $yellow;
     min-height: 100vh;
-    min-width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +15,13 @@ $blu: #000421;
         color: $blu;
         font-weight: bold;
         text-transform: uppercase;    
-        text-align: center;     
+        text-align: center;   
+        @media screen and (max-width: 767px) {
+            font-size: 22px;
+        }
+        @media screen and (max-width: 568px) {
+            font-size: 18px;
+        }
         .section {
             max-width: 500px;
             width: 100%;
