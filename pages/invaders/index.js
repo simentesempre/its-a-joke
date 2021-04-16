@@ -1,5 +1,5 @@
-import MetaHead from '../components/global/MetaHead'
-import SpaceInvaders from '../components/SpaceInvaders'
+import MetaHead from '../../components/global/MetaHead'
+import SpaceInvaders from '../../components/SpaceInvaders'
 
 const Home = () => {
   return (
