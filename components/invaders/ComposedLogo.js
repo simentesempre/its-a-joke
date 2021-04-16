@@ -2,10 +2,10 @@ const ComposedLogo = ({ tiles }) => {
     return (
         <div className="composed-logo">
             {
-                tiles.map(tile => <Tile destroyed={tile.destryed}></Tile>)
+                tiles.map(tile => <Tile id={tile.id} destroyed={tile.destroyed}></Tile>)
             }
         </div>
     )
 }
-const Tile = ({ destroyed }) => <div className={`tile ${destroyed ? 'destroyed' : ''}`}></div>
+const Tile = ({ id, destroyed }) => <div id={id} className={`tile ${destroyed ? 'destroyed' : ''}`}></div>
 export default ComposedLogo

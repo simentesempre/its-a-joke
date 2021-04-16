@@ -33,9 +33,9 @@ $lines: 12;
         top: 75%;
         @media only screen and (min-width: 768px) {
             top: 80%; 
-            animation: bulletMovementDesktop 4s linear 1 forwards;
+            animation: bulletMovementDesktop 3s linear 1 forwards;
         }
-        animation: bulletMovement 4s linear 1 forwards;
+        animation: bulletMovement 3s linear 1 forwards;
     }
     .composed-logo {
         position: absolute;
@@ -56,6 +56,9 @@ $lines: 12;
                         background-position: -#{25 * $l}px -#{25 * $r}px;
                     }
                 }
+            }
+            &.destroyed {
+                background-image: none;
             }
         }
         @media only screen and (min-width: 768px) {
