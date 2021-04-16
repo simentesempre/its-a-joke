@@ -35,11 +35,28 @@ $lines: 12;
         font-size: 18px;
         font: inherit;
         text-transform: inherit;
+        position: relative;
+        &::before {
+            content: " ";
+            height: 15px;
+            width: 15px;
+            position: absolute;
+            background-color: $violet;
+            left: 50%;
+            margin-left: -7.5px;
+            margin-top: 0px;
+            top: 0;
+            transition: margin .5s ease-in-out;
+            z-index: -1;
+        }
         &:hover {
             cursor: grab;
         }
         &:active {
             cursor: grabbing;
+            &::before {
+                margin-top: -14px;
+            }
         }
         &.talk {
             cursor: pointer;

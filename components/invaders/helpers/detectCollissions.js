@@ -7,7 +7,7 @@ export const detectCollisions = (tiles, bullets, collisionCallback) => {
             for (let b = 0; b < bulletsWithBoundingClientRect.length; b++) {
                 if(!tilesWithBoundingClientRect[t].destroyed && !bulletsWithBoundingClientRect[b].destroyed) {
                     if(isCollide(tilesWithBoundingClientRect[t].boundingClientRect, bulletsWithBoundingClientRect[b].boundingClientRect)) {
-                        collisionCallback(tilesWithBoundingClientRect[t].id, bulletsWithBoundingClientRect[b].id)
+                        collisionCallback(tilesWithBoundingClientRect[t], bulletsWithBoundingClientRect[b])
                     }
                 }
             }

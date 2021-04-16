@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Draggable from 'react-draggable'
+import lottie from 'lottie-web'
 
 import { createId, detectCollisions } from './invaders/helpers'
 
@@ -22,16 +23,16 @@ const SpaceInvaders = () => {
     const [buttonText, setButtonText] = useState('Don\'t drag me!')
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
 
-    const handleDragStart = (e, ui) => {
+    const handleDragStart = _ => {
         setMustShoot(true)
     }
 
-    const handleDragEnd = (e, ui) => {
+    const handleDragEnd = _ => {
         setMustShoot(false) 
     }
 
-    const handleDrag = (e, ui) => {
-        buttonX.current = getX(e)
+    const handleDrag = _ => {
+        buttonX.current = getX()
     }
 
     const handleClick = _ => {
@@ -40,7 +41,11 @@ const SpaceInvaders = () => {
         }
     }
 
-    const getX = e => e.type === "touchmove" ? e.touches[0].screenX : e.x
+    const getX = _ => {     
+        const destroyer = document.getElementById('destroyer')
+        if(!destroyer) return false
+        return destroyer.getBoundingClientRect().x + ( destroyer.clientWidth / 2 ) - 8
+    }
 
     const createBullet = () => {
         if(!buttonX.current) {
@@ -54,12 +59,32 @@ const SpaceInvaders = () => {
         }) 
     }
 
-    const collisionCallback = (tileId, bulletId) => {
+    const collisionCallback = (collidedTile, collidedBullet) => {
         setBullets(prevBulletts => {
-            return prevBulletts.map( bullet => bullet.id === bulletId ? { ...bullet, destroyed: true } : bullet)
+            return prevBulletts.map( bullet => bullet.id === collidedBullet.id ? { ...bullet, destroyed: true } : bullet)
+        })
+        const canvasExplosion = document.createElement('div')
+        canvasExplosion.setAttribute('style', `
+            position: absolute; 
+            width: 200px; 
+            height: 200px; 
+            top: ${collidedTile.boundingClientRect.y - 72.5}px; 
+            left: ${collidedTile.boundingClientRect.x - 72.5}px;
+        `)
+        canvasExplosion.id = 'canvas-explosion'
+        document.body.append(canvasExplosion)
+        const explosion = lottie.loadAnimation({
+            container: canvasExplosion,
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            path: '/json/explosion.json'
+        })
+        explosion.addEventListener('complete', () => {   
+            canvasExplosion.parentNode.removeChild(canvasExplosion)
         })
         setTiles(prevTiles => {
-            return prevTiles.map( tile => tile.id === tileId ? { ...tile, destroyed: true } : tile)
+            return prevTiles.map( tile => tile.id === collidedTile.id ? { ...tile, destroyed: true } : tile)
         })
     }
 
@@ -82,6 +107,7 @@ const SpaceInvaders = () => {
             shootInterval.current = setInterval(() => createBullet(), 300)
             if(tilesDestroyed < 8) {
                 setButtonText('I said don\'t drag me!')
+                buttonX.current = getX()
             }
         } else {
             clearInterval(shootInterval.current)
@@ -119,6 +145,7 @@ const SpaceInvaders = () => {
         if(checkAllTilesDestroyed()) {
             setButtonText('Let\'s talk')
         }
+        buttonX.current = getX()
     }, [tilesDestroyed])
 
     return (
@@ -148,7 +175,7 @@ const SpaceInvaders = () => {
                         }
                     }
                 >
-                    <button className={checkAllTilesDestroyed() ? 'talk' : ''}>{buttonText}</button>   
+                    <button id="destroyer" className={checkAllTilesDestroyed() ? 'talk' : ''}>{buttonText}</button>   
                 </Draggable>
             }
         </div>
