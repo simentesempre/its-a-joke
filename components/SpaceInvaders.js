@@ -15,6 +15,7 @@ const SpaceInvaders = () => {
     const shootInterval = useRef(false)
     const detectInterval = useRef(false)
     const buttonX = useRef(false)
+    const hit = new Audio('/sounds/invaders/hit.mp3')
 
     const [windowSizes, setWindowSizes] = useState(false)
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
@@ -22,6 +23,7 @@ const SpaceInvaders = () => {
     const [mustShoot, setMustShoot] = useState(false)
     const [buttonText, setButtonText] = useState('Don\'t drag me!')
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
+    const [shake, setShake] = useState(false)
 
     const handleDragStart = _ => {
         setMustShoot(true)
@@ -60,6 +62,8 @@ const SpaceInvaders = () => {
     }
 
     const collisionCallback = (collidedTile, collidedBullet) => {
+        shakeIt()
+        hit.play()
         setBullets(prevBulletts => {
             return prevBulletts.map( bullet => bullet.id === collidedBullet.id ? { ...bullet, destroyed: true } : bullet)
         })
@@ -72,7 +76,7 @@ const SpaceInvaders = () => {
             left: ${collidedTile.boundingClientRect.x - 72.5}px;
         `)
         canvasExplosion.id = 'canvas-explosion'
-        document.body.append(canvasExplosion)
+        document.getElementById('joke-invaders').append(canvasExplosion)
         const explosion = lottie.loadAnimation({
             container: canvasExplosion,
             renderer: 'svg',
@@ -86,6 +90,13 @@ const SpaceInvaders = () => {
         setTiles(prevTiles => {
             return prevTiles.map( tile => tile.id === collidedTile.id ? { ...tile, destroyed: true } : tile)
         })
+    }
+
+    const shakeIt = () => {
+        setShake(true)
+        setTimeout(() => {
+            setShake(false)
+        }, 375)
     }
 
     const checkAllTilesDestroyed = () => {
@@ -140,7 +151,7 @@ const SpaceInvaders = () => {
             setButtonText('I\'m begging you!')
         }
         if(tilesDestroyed >= 35) {
-            setButtonText('NOOOOOOOOOOO!!!')
+            setButtonText('NOOOOOOOO!!!')
         }
         if(checkAllTilesDestroyed()) {
             setButtonText('Let\'s talk')
@@ -149,7 +160,7 @@ const SpaceInvaders = () => {
     }, [tilesDestroyed])
 
     return (
-        <div className="space-invaders">
+        <div id="joke-invaders" className={`joke-invaders ${ shake ? 'shake' : ''}`}>
             {
                 tiles && <ComposedLogo tiles={tiles} />
             }
@@ -175,7 +186,11 @@ const SpaceInvaders = () => {
                         }
                     }
                 >
-                    <button id="destroyer" className={checkAllTilesDestroyed() ? 'talk' : ''}>{buttonText}</button>   
+                    <button 
+                        id="destroyer" 
+                        className={`${mustShoot ? 'isShooting' : ''} ${checkAllTilesDestroyed() ? 'talk' : ''}`}>
+                            {buttonText}
+                    </button>   
                 </Draggable>
             }
         </div>
