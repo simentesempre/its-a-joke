@@ -92,6 +92,12 @@ const SpaceInvaders = () => {
         })
     }
 
+    const outsideCallback = (outsideBullet) => {
+        setBullets(prevBulletts => {
+            return prevBulletts.map( bullet => bullet.id === outsideBullet.id ? { ...bullet, destroyed: true } : bullet)
+        })
+    }
+
     const shakeIt = () => {
         setShake(true)
         setTimeout(() => {
@@ -135,7 +141,7 @@ const SpaceInvaders = () => {
     useEffect(() => {
         if(detectInterval.current) clearInterval(detectInterval.current)
         if(tiles.length && bullets.length) {
-            detectInterval.current = detectCollisions(tiles, bullets, collisionCallback)
+            detectInterval.current = detectCollisions(tiles, bullets, collisionCallback, outsideCallback)
         }
         setTilesDestroyed(checkHowManyTilesDestroyed())
     }, [tiles, bullets])

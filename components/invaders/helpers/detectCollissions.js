@@ -1,4 +1,6 @@
-export const detectCollisions = (tiles, bullets, collisionCallback) => {
+import memoize from 'memoizee'
+
+export const detectCollisions = (tiles, bullets, collisionCallback, outsideCallback) => {
     
     return setInterval(() => {
         const tilesWithBoundingClientRect = getElementsBoundingClientRect(tiles)
@@ -6,13 +8,16 @@ export const detectCollisions = (tiles, bullets, collisionCallback) => {
         for (let t = 0; t < tilesWithBoundingClientRect.length; t++) {
             for (let b = 0; b < bulletsWithBoundingClientRect.length; b++) {
                 if(!tilesWithBoundingClientRect[t].destroyed && !bulletsWithBoundingClientRect[b].destroyed) {
-                    if(isCollide(tilesWithBoundingClientRect[t].boundingClientRect, bulletsWithBoundingClientRect[b].boundingClientRect)) {
+                    if(memoizedIsCollide(tilesWithBoundingClientRect[t].boundingClientRect, bulletsWithBoundingClientRect[b].boundingClientRect)) {
                         collisionCallback(tilesWithBoundingClientRect[t], bulletsWithBoundingClientRect[b])
+                    }
+                    if(memoizedIsOutside(bulletsWithBoundingClientRect[b].boundingClientRect)) {
+                        outsideCallback(bulletsWithBoundingClientRect[b])
                     }
                 }
             }
         }
-    }, 100)
+    }, 50)
 }
 
 const getElementsBoundingClientRect = (elements) => {
@@ -28,3 +33,10 @@ const isCollide = (a, b) => {
         (a.x > (b.x + b.width))
     )
 }
+
+const isOutside = (a) => {
+    return a.y < 0
+}
+
+const memoizedIsCollide = memoize(isCollide)
+const memoizedIsOutside = memoize(isOutside)

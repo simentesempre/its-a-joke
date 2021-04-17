@@ -1,4 +1,6 @@
-const Thanks = ({ bullet }) => {
+import React from 'react'
+
+const Thanks = React.memo(_ => {
     return (
         <div className="thanks">
             <div>
@@ -14,5 +16,5 @@ const Thanks = ({ bullet }) => {
             </div>
         </div>
     )
-}
+})
 export default Thanks
