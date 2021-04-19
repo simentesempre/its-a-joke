@@ -3,18 +3,20 @@ import { useState, useRef, useEffect } from 'react'
 import Api from '../../api'
 
 const Contacts = () => {
-  const api = useRef(new Api(process.env.apiPath))
-
-  const [form, setForm] = useState({
-      name: '',
-      email: '', 
-      text: '',
-      group: null
-  })
-  const [error, setError] = useState({
+  const api = useRef(new Api(process.env.NEXT_PUBLIC_API_PATH))
+  const defaultError = {
       status: false,
       message: ''
-  })
+  }
+  const defaultForm = {
+    name: '',
+    email: '', 
+    text: '',
+    group: null
+  } 
+
+  const [form, setForm] = useState(defaultForm)
+  const [error, setError] = useState(defaultError)
   const [subscription, setSubscription] = useState(false)
   const [createAGame, setCreateAGame] = useState(false)
 
@@ -22,24 +24,27 @@ const Contacts = () => {
   const handleClick = value => setCreateAGame(value)
   const handleSubmit = () => {
     const { email, name, text, group } = form
-    const newsletterPromise = api.current.newsletter(email, name, group)
-    const sendPromise = api.current.send(text, email, name)
-    Promise.all([newsletterPromise, sendPromise])
+    api.current.newsletter(email, name, group)
     .then(() => {
         setSubscription(true)
         setCreateAGame(false)
-        setForm({
-            name: null,
-            email: null, 
-            text: null,
-            group: null
+        setForm(defaultForm)
+        setError(defaultError)
+        api.current.send(text, email, name)
+        .then(() => {
+          setError(defaultError)
         })
-        setError({
-            status: false,
-            message: ''
+        .catch(err => {
+          const { message } = err.response.data
+          const { status } = err.response
+          setError({
+            status,
+            message
         })
+      })
     })
     .catch(err => {
+      console.error(err.response)
         const { message } = err.response.data
         const { status } = err.response
         setError({
@@ -55,11 +60,11 @@ const Contacts = () => {
 
   return (
     <div className="contacts">
-        <input type="text" value={form.name} onChange={handleChange} />
-        <input type="email" value={form.email} onChange={handleChange} />
+        <input type="text" name="name" value={form.name} onChange={handleChange} />
+        <input type="email" name="email" value={form.email} onChange={handleChange} />
         <button onClick={() => handleClick(false)} className={`${createAGame ? '' : 'selected'}`}>Play a game</button>
         <button onClick={() => handleClick(true)} className={`${createAGame ? 'selected' : ''}`}>Create a game</button>
-        <textarea onChange={handleChange} value={form.text} />
+        <textarea onChange={handleChange} name="text " value={form.text} />
         <button onClick={handleSubmit}>Now you can click</button>
         { error.status && `Errore ${error.status}: ${error.message}` }
         { subscription && 'Sottoscrizione avvenuta correttamente.' }

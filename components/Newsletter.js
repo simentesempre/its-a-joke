@@ -13,7 +13,7 @@ const Newsletter = ({ classes }) => {
 
   const handleChange = e => setEmail(e.target.value)
   const handleSubmit = () => {
-    const api = new Api(process.env.apiPath)
+    const api = new Api(process.env.NEXT_PUBLIC_API_PATH)
     api.newsletter(email)
     .then(() => {
         setSubscription(true)
