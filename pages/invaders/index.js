@@ -1,5 +1,5 @@
 import { MetaHead } from '../../components/global/'
-import JokeInvaders from '../../components/invaders/'
+import { JokeInvaders } from '../../components/invaders/'
 
 const Home = () => {
   return (

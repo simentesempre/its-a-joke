@@ -1,3 +1,7 @@
 import JokeInvaders from './JokeInvaders'
+import InvaderContacts from './InvaderContacts'
 
-export default JokeInvaders
+export {
+    JokeInvaders,
+    InvaderContacts
+}
