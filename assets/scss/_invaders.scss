@@ -72,14 +72,21 @@ $lines: 12;
         &:hover {
             cursor: grab;
         }
-        &:active, &:focus, &.isShooting {
-            cursor: grabbing;
-            &::before {
-                margin-top: -14px;
-            }
+        &:not(.talk) {
+           &:active, &:focus, &.isShooting {
+                cursor: grabbing;
+                &::before {
+                    margin-top: -14px;
+                }
+            } 
         }
+        
         &.talk {
             cursor: pointer;
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
         }
     }
     .bullet {

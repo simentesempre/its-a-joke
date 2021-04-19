@@ -1,12 +1,12 @@
-import MetaHead from '../../components/global/MetaHead'
-import SpaceInvaders from '../../components/SpaceInvaders'
+import { MetaHead } from '../../components/global/'
+import JokeInvaders from '../../components/invaders/'
 
 const Home = () => {
   return (
     <>
       <MetaHead />
       <div suppressHydrationWarning={true}>
-        { process.browser &&  <SpaceInvaders /> }
+        { process.browser &&  <JokeInvaders /> }
       </div>
     </>
   )

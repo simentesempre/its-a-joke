@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
-import Draggable from 'react-draggable'
 import lottie from 'lottie-web'
 
-import { createId, detectCollisions } from './invaders/helpers'
+import { createId, detectCollisions } from './helpers'
 
-import ComposedLogo from './invaders/ComposedLogo'
-import Bullet from './invaders/Bullet'
-import Thanks from './invaders/Thanks'
+import ComposedLogo from './ComposedLogo'
+import Bullet from './Bullet'
+import Thanks from './Thanks'
+import DraggableButton from './DraggableButton'
 
-const SpaceInvaders = () => {
+const JokeInvaders = () => {
     const router = useRouter()
 
     const shootInterval = useRef(false)
@@ -21,7 +21,7 @@ const SpaceInvaders = () => {
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
     const [bullets, setBullets] = useState([])
     const [mustShoot, setMustShoot] = useState(false)
-    const [buttonText, setButtonText] = useState('Don\'t drag me!')
+    const [buttonText, setButtonText] = useState('Don\'t click me!')
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
     const [shake, setShake] = useState(false)
 
@@ -144,6 +144,7 @@ const SpaceInvaders = () => {
             detectInterval.current = detectCollisions(tiles, bullets, collisionCallback, outsideCallback)
         }
         setTilesDestroyed(checkHowManyTilesDestroyed())
+        if(checkAllTilesDestroyed()) setMustShoot(false)
     }, [tiles, bullets])
 
     useEffect(() => {
@@ -167,40 +168,24 @@ const SpaceInvaders = () => {
 
     return (
         <div id="joke-invaders" className={`joke-invaders ${ shake ? 'shake' : ''}`}>
-            {
-                tiles && <ComposedLogo tiles={tiles} />
-            }
-            {
-                bullets && bullets.map(bullet => <Bullet key={bullet.id} bullet={bullet} />)
-            }
-            {
-                checkAllTilesDestroyed() && <Thanks />
-            }
+            { tiles && <ComposedLogo tiles={tiles} /> }
+            { bullets && bullets.map(bullet => <Bullet key={bullet.id} bullet={bullet} />) }
+            { checkAllTilesDestroyed() && <Thanks /> }
             {
                 windowSizes && 
-                <Draggable 
-                    axis="x" 
-                    bounds="parent" 
-                    onStart={handleDragStart}
-                    onStop={handleDragEnd}
-                    onDrag={handleDrag}
-                    onMouseDown={handleClick}
-                    defaultPosition={
-                        {
-                            x: (windowSizes.width / 2 ) - 50, 
-                            y: ( windowSizes.height / 100 ) * 80
-                        }
-                    }
-                >
-                    <button 
-                        id="destroyer" 
-                        className={`${mustShoot ? 'isShooting' : ''} ${checkAllTilesDestroyed() ? 'talk' : ''}`}>
-                            {buttonText}
-                    </button>   
-                </Draggable>
+                <DraggableButton
+                    dragStartCallback={handleDragStart}
+                    dragEndCallback={handleDragEnd}
+                    dragCallback={handleDrag}
+                    clickCallback={handleClick}
+                    checkAllTilesDestroyed={checkAllTilesDestroyed}
+                    windowSizes={windowSizes}
+                    mustShoot={mustShoot}
+                    buttonText={buttonText}
+                /> 
             }
         </div>
     )
   }
   
-  export default SpaceInvaders
+  export default JokeInvaders
