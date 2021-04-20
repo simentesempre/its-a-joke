@@ -68,7 +68,6 @@ const Contacts = () => {
 
   return (
     <div className="invaders contacts">
-        <div>Subscribe to our newsletter</div>
         <div>
           <label>How do you want we call you?</label>
           <input type="text" name="name" value={form.name} onChange={handleChange} />
@@ -89,6 +88,7 @@ const Contacts = () => {
           <textarea onChange={handleChange} name="text" value={form.text} />
         </div>
         <div>
+          <p className="small">By clicking here you'll subscribe to our newsletter<br />and declare to agree with our  <a href="https://www.iubenda.com/privacy-policy/63870221" target="_blank" title="Privacy Policy ">privacy Policy</a>.<br />Don't worry, no ads, no spam. We promise.</p>
           <button className="selected" onClick={handleSubmit}>Now you can click</button>
         </div>
         <div>

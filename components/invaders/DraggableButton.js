@@ -4,49 +4,42 @@ const DraggableButton = ({
     dragStartCallback,
     dragEndCallback,
     dragCallback,
-    clickCallback,
-    checkAllTilesDestroyed,
     windowSizes,
     mustShoot,
     buttonText
 }) => {
     const buttonProps = {
         buttonText,
-        mustShoot,
-        checkAllTilesDestroyed,
-        onClick: clickCallback
+        mustShoot
     }
     return (
-        checkAllTilesDestroyed() ? 
-            <TalkingButton { ...buttonProps } /> : 
-            <Draggable 
-                axis="x" 
-                bounds="parent" 
-                onStart={dragStartCallback}
-                onStop={dragEndCallback}
-                onDrag={dragCallback}
-                defaultPosition={
-                    {
-                        x: (windowSizes.width / 2 ) -70, 
-                        y: ( windowSizes.height / 100 ) * 80
-                    }
+        <Draggable 
+            axis="x" 
+            bounds="parent" 
+            onStart={dragStartCallback}
+            onStop={dragEndCallback}
+            onDrag={dragCallback}
+            defaultPosition={
+                {
+                    x: (windowSizes.width / 2 ) -70, 
+                    y: ( windowSizes.height / 100 ) * 80
                 }
-            >
-                <TalkingButton { ...buttonProps } />
-            </Draggable>
+            }
+        >
+            <TalkingButton { ...buttonProps } />
+        </Draggable>
     )
 }
 
 const TalkingButton = ({ 
     buttonText, 
     mustShoot, 
-    checkAllTilesDestroyed,
     ...rest
 }) => {
     return (
         <button 
             id="destroyer" 
-            className={`${mustShoot ? 'isShooting' : ''} ${checkAllTilesDestroyed() ? 'talk' : ''}`}
+            className={`${mustShoot ? 'isShooting' : ''}`}
             {...rest}>
             {buttonText}
         </button> 

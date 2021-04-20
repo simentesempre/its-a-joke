@@ -21,7 +21,7 @@ const JokeInvaders = () => {
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
     const [bullets, setBullets] = useState([])
     const [mustShoot, setMustShoot] = useState(false)
-    const [buttonText, setButtonText] = useState('Don\'t click me!')
+    const [buttonText, setButtonText] = useState('Don\'t click here!')
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
     const [shake, setShake] = useState(false)
 
@@ -35,12 +35,6 @@ const JokeInvaders = () => {
 
     const handleDrag = _ => {
         buttonX.current = getX()
-    }
-
-    const handleClick = _ => {
-        if(checkAllTilesDestroyed()){
-            router.push('/invaders/contacts')
-        }
     }
 
     const getX = _ => {     
@@ -123,7 +117,7 @@ const JokeInvaders = () => {
             createBullet()
             shootInterval.current = setInterval(() => createBullet(), 300)
             if(tilesDestroyed < 8) {
-                setButtonText('I said don\'t click me!')
+                setButtonText('I said don\'t click here!')
                 buttonX.current = getX()
             }
         } else {
@@ -172,13 +166,11 @@ const JokeInvaders = () => {
             { bullets && bullets.map(bullet => <Bullet key={bullet.id} bullet={bullet} />) }
             { checkAllTilesDestroyed() && <WhatNow /> }
             {
-                windowSizes && 
+                windowSizes && !checkAllTilesDestroyed() && 
                 <DraggableButton
                     dragStartCallback={handleDragStart}
                     dragEndCallback={handleDragEnd}
                     dragCallback={handleDrag}
-                    clickCallback={handleClick}
-                    checkAllTilesDestroyed={checkAllTilesDestroyed}
                     windowSizes={windowSizes}
                     mustShoot={mustShoot}
                     buttonText={buttonText}

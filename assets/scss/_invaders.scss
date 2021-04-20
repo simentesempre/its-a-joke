@@ -10,6 +10,14 @@ $lines: 12;
     font-size: 18px;
     line-height: 24px;
 }
+@mixin invaders-typo-small {
+    font-family: 'Teko', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: $violet;
+    font-size: 14px;
+    line-height: 18px;
+}
 @mixin invaders-base {
     width: 100vw;
     height: 100vh;
@@ -98,14 +106,6 @@ $lines: 12;
                 }
             } 
         }
-        
-        &.talk {
-            cursor: pointer;
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
     }
     .bullet {
         height: 15px;
@@ -169,7 +169,7 @@ $lines: 12;
         p {
             margin-bottom: 10px;
             opacity: 0;
-            $ps: 3;
+            $ps: 4;
             @for $p from 0 to $ps {
                 &:nth-child(#{$p + 1}) {
                     transition: opacity .375s ease-in-out #{($p * 2) + 2}s;
@@ -184,6 +184,13 @@ $lines: 12;
                 } 
             }
         }
+        button.talk {
+            cursor: pointer;
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     }
 }
 .invaders {
@@ -197,6 +204,12 @@ $lines: 12;
     }
     &.contacts {
         flex-direction: column;
+        .small {
+            @include invaders-typo-small;
+        }
+        a {
+            color: $violet;
+        }
         &>div {
             @include flex-center;
             flex-direction: column;
@@ -223,11 +236,15 @@ $lines: 12;
                 }
                 outline: none;
                 cursor: pointer;
+                margin-top: 20px;
             }
             .contacts-buttons {
                 display: flex;
                 justify-content: space-between;
                 width: 100%;
+                button {
+                    margin-top: 0;
+                }
             }
         }
     }

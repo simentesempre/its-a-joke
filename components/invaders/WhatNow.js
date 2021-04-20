@@ -1,6 +1,8 @@
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 
 const WhatNow = _ => {
+    const router = useRouter()
     const [timePassed, setTimePassed] = useState(false)
     
     useEffect(() => {
@@ -22,6 +24,9 @@ const WhatNow = _ => {
                 </p>
                 <p>
                     What are we going to do now?
+                </p>
+                <p>
+                    <button onClick={() => router.push('/invaders/contacts')} className="talk">Ok, let's talk</button>
                 </p>
             </div>
         </div>
