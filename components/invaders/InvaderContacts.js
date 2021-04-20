@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import Api from '../../api'
 
 const Contacts = () => {
   const api = useRef(new Api(process.env.NEXT_PUBLIC_API_PATH))
+
   const defaultError = {
       status: false,
       message: ''
@@ -12,13 +14,17 @@ const Contacts = () => {
     name: '',
     email: '', 
     text: '',
-    group: null
+    group: ''
   } 
+
+  const router = useRouter()
 
   const [form, setForm] = useState(defaultForm)
   const [error, setError] = useState(defaultError)
   const [subscription, setSubscription] = useState(false)
   const [createAGame, setCreateAGame] = useState(false)
+
+  const goTo = route => router.push(route)
 
   const handleChange = e => setForm(prevForm => ({ ...prevForm, [e.target.name]: e.target.value }))
   const handleClick = value => setCreateAGame(value)
@@ -27,47 +33,70 @@ const Contacts = () => {
     api.current.newsletter(email, name, group)
     .then(() => {
         setSubscription(true)
-        setCreateAGame(false)
-        setForm(defaultForm)
         setError(defaultError)
-        api.current.send(text, email, name)
-        .then(() => {
-          setError(defaultError)
-        })
-        .catch(err => {
-          const { message } = err.response.data
-          const { status } = err.response
-          setError({
-            status,
-            message
-        })
-      })
+        if(text !== '') {
+          api.current.send(text, email, name)
+          .then(() => {
+            setCreateAGame(false)
+            setForm(defaultForm)
+            goTo('/invaders/thanks')
+          })
+          .catch(err => {
+            setError({
+              status: err.response?.status || 'Undefined',
+              message: err.response?.data?.message || err
+            })
+          })
+        } else {
+          setCreateAGame(false)
+          setForm(defaultForm)
+          goTo('/invaders/thanks')
+        }
     })
     .catch(err => {
-      console.error(err.response)
-        const { message } = err.response.data
-        const { status } = err.response
-        setError({
-            status,
-            message
-        })
+      console.log(err)
+      setError({
+        status: err.response?.status || 'Undefined',
+        message: err.response?.data?.message || err
+      })
     })
   }
 
   useEffect(() => {
-    setForm(prevForm => ({ ...prevForm, group: createAGame ? 'Developer' : null }))
+    setForm(prevForm => ({ ...prevForm, group: createAGame ? 'Developer' : '' }))
   }, [createAGame])
 
   return (
-    <div className="contacts">
-        <input type="text" name="name" value={form.name} onChange={handleChange} />
-        <input type="email" name="email" value={form.email} onChange={handleChange} />
-        <button onClick={() => handleClick(false)} className={`${createAGame ? '' : 'selected'}`}>Play a game</button>
-        <button onClick={() => handleClick(true)} className={`${createAGame ? 'selected' : ''}`}>Create a game</button>
-        <textarea onChange={handleChange} name="text " value={form.text} />
-        <button onClick={handleSubmit}>Now you can click</button>
-        { error.status && `Errore ${error.status}: ${error.message}` }
-        { subscription && 'Sottoscrizione avvenuta correttamente.' }
+    <div className="invaders contacts">
+        <div>Subscribe to our newsletter</div>
+        <div>
+          <label>How do you want we call you?</label>
+          <input type="text" name="name" value={form.name} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Give us your mail so that we can hack you</label>
+          <input type="email" name="email" value={form.email} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Are you interested in...</label>
+          <div className="contacts-buttons">
+            <button onClick={() => handleClick(false)} className={`${createAGame ? '' : 'selected'}`}>Playing a game</button>
+            <button onClick={() => handleClick(true)} className={`${createAGame ? 'selected' : ''}`}>Creating a game</button>
+          </div>
+        </div>
+        <div>
+          <label>Here you can write your excuses</label>
+          <textarea onChange={handleChange} name="text" value={form.text} />
+        </div>
+        <div>
+          <button className="selected" onClick={handleSubmit}>Now you can click</button>
+        </div>
+        <div>
+          { error.status && `${error.status} - ${error.message}` }
+          { subscription && 'Subscription confirmed.' }
+        </div>
+        
+        
     </div>
   )
 }

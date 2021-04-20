@@ -2,16 +2,19 @@ import React from 'react'
 
 const Thanks = React.memo(_ => {
     return (
-        <div className="thanks">
+        <div className="invaders thanks">
             <div>
                 <p>
-                    Thanks for destroying our site. Bravo!<br />
+                    <img src="/images/Mask.png" alt={process.env.siteTitle} />
                 </p>
                 <p>
-                    You're a bold one and you like to play, huh?
+                    It's a joke.<br />
                 </p>
                 <p>
-                    What are we going to do now?
+                    And you're cool.
+                </p>
+                <p>
+                    Thanks for your visit.
                 </p>
             </div>
         </div>

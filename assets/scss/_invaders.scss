@@ -1,6 +1,28 @@
 @use 'sass:math';
 $rows: 4;
 $lines: 12;
+
+@mixin invaders-typo {
+    font-family: 'Teko', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: $violet;
+    font-size: 18px;
+    line-height: 24px;
+}
+@mixin invaders-base {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-color: $yellow;
+}
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 @keyframes bulletMovement {
     0% {
         top: 75%;
@@ -37,14 +59,9 @@ $lines: 12;
     animation-iteration-count: 1;
 }
 .joke-invaders {
-    font-family: 'Teko', sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
-    width: 100vw;
-    height: 100vh;
     overflow-x: hidden;
-    position: relative;
-    background-color: $yellow;
+    @include invaders-base;
+    @include invaders-typo;
     button {
         border: none;
         color: $yellow;
@@ -52,10 +69,11 @@ $lines: 12;
         outline: none;
         border-radius: 0;
         padding: 10px 20px;
-        font-size: 18px;
         font: inherit;
         text-transform: inherit;
         position: relative;
+        @include invaders-typo;
+        color: $yellow;
         &::before {
             content: " ";
             height: 15px;
@@ -141,18 +159,76 @@ $lines: 12;
             } 
         }
     }
-    .thanks {
+    .whatnow {
         height: 100vh;
         width: 100vw;
         position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        @include flex-center;
         font-size: 24px;
         padding: 40px;
         p {
             margin-bottom: 10px;
+            opacity: 0;
+            $ps: 3;
+            @for $p from 0 to $ps {
+                &:nth-child(#{$p + 1}) {
+                    transition: opacity .375s ease-in-out #{($p * 2) + 2}s;
+                }
+            }
+            
+        }
+        &>div {
+            &.show {
+                p {
+                    opacity: 1;
+                } 
+            }
+        }
+    }
+}
+.invaders {
+    @include invaders-base;
+    @include invaders-typo;
+    @include flex-center;
+    &.thanks {
+        img {
+            max-width: 200px;
+        }
+    }
+    &.contacts {
+        flex-direction: column;
+        &>div {
+            @include flex-center;
+            flex-direction: column;
+            margin-bottom: 20px;
+            min-width: 320px;
+            input, textarea {
+                display: block;
+                width: 100%;
+                background-color: transparent;
+                border: 1px solid $violet;
+                @include invaders-typo;
+                padding: 10px;
+                outline: none;
+            }
+            button {
+                display: inline-block;
+                background-color: transparent;
+                border: 1px solid $violet;
+                @include invaders-typo;
+                padding: 10px;
+                &.selected {
+                    background-color: $violet;
+                    color: $yellow;
+                }
+                outline: none;
+                cursor: pointer;
+            }
+            .contacts-buttons {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
         }
     }
 }

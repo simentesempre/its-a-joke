@@ -4,7 +4,7 @@ class Api {
     constructor(apiUrl){
         this.apiUrl = apiUrl
     }
-    newsletter(email, fname = null, group = null) {
+    newsletter(email, fname = '', group = '') {
         return new Promise((resolve, reject) => {
             axios
             .post(`${this.apiUrl}/newsletter`, { 
@@ -25,7 +25,7 @@ class Api {
         })
         
     }
-    send(text, from, name =  null) {
+    send(text, from, name =  '') {
         return new Promise((resolve, reject) => {
             axios
             .post(`${this.apiUrl}/send`, { 

@@ -6,7 +6,7 @@ import { createId, detectCollisions } from './helpers'
 
 import ComposedLogo from './ComposedLogo'
 import Bullet from './Bullet'
-import Thanks from './Thanks'
+import WhatNow from './WhatNow'
 import DraggableButton from './DraggableButton'
 
 const JokeInvaders = () => {
@@ -123,7 +123,7 @@ const JokeInvaders = () => {
             createBullet()
             shootInterval.current = setInterval(() => createBullet(), 300)
             if(tilesDestroyed < 8) {
-                setButtonText('I said don\'t drag me!')
+                setButtonText('I said don\'t click me!')
                 buttonX.current = getX()
             }
         } else {
@@ -170,7 +170,7 @@ const JokeInvaders = () => {
         <div id="joke-invaders" className={`joke-invaders ${ shake ? 'shake' : ''}`}>
             { tiles && <ComposedLogo tiles={tiles} /> }
             { bullets && bullets.map(bullet => <Bullet key={bullet.id} bullet={bullet} />) }
-            { checkAllTilesDestroyed() && <Thanks /> }
+            { checkAllTilesDestroyed() && <WhatNow /> }
             {
                 windowSizes && 
                 <DraggableButton
