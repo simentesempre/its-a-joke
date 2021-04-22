@@ -10,12 +10,11 @@ import WhatNow from './WhatNow'
 import DraggableButton from './DraggableButton'
 
 const JokeInvaders = () => {
-    const router = useRouter()
-
     const shootInterval = useRef(false)
     const detectInterval = useRef(false)
     const buttonX = useRef(false)
     const hit = new Audio('/sounds/invaders/hit.mp3')
+    hit.addEventListener('canplaythrough', () => setSoundLoaded(true))
 
     const [windowSizes, setWindowSizes] = useState(false)
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
@@ -24,6 +23,7 @@ const JokeInvaders = () => {
     const [buttonText, setButtonText] = useState('Don\'t click here!')
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
     const [shake, setShake] = useState(false)
+    const [soundLoaded, setSoundLoaded] = useState(false)
 
     const handleDragStart = _ => {
         setMustShoot(true)
@@ -160,7 +160,7 @@ const JokeInvaders = () => {
         buttonX.current = getX()
     }, [tilesDestroyed])
 
-    return (
+    return soundLoaded && (
         <div id="joke-invaders" className={`joke-invaders ${ shake ? 'shake' : ''}`}>
             { tiles && <ComposedLogo tiles={tiles} /> }
             { bullets && bullets.map(bullet => <Bullet key={bullet.id} bullet={bullet} />) }
