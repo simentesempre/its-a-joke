@@ -13,9 +13,9 @@ const JokeInvaders = () => {
     const shootInterval = useRef(false)
     const detectInterval = useRef(false)
     const buttonX = useRef(false)
-    const hit = new Audio('/sounds/invaders/hit.mp3')
-    hit.addEventListener('canplaythrough', () => setSoundLoaded(true))
-    hit.load()
+    const hit = useRef(new Audio('/sounds/invaders/hit.mp3'))
+    const hit2 = useRef(new Audio('/sounds/invaders/hit.mp3'))
+    
 
     const [windowSizes, setWindowSizes] = useState(false)
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
@@ -25,6 +25,7 @@ const JokeInvaders = () => {
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
     const [shake, setShake] = useState(false)
     const [soundLoaded, setSoundLoaded] = useState(false)
+    const [soundEnded, setSoundEnded] = useState(true)
 
     const handleDragStart = _ => {
         setMustShoot(true)
@@ -58,7 +59,12 @@ const JokeInvaders = () => {
 
     const collisionCallback = (collidedTile, collidedBullet) => {
         shakeIt()
-        hit.play()
+        if(soundEnded) {
+            hit.current.play()
+            setSoundEnded(false)
+        } else {
+            hit2.current.play()
+        }
         setBullets(prevBulletts => {
             return prevBulletts.map( bullet => bullet.id === collidedBullet.id ? { ...bullet, destroyed: true } : bullet)
         })
@@ -127,6 +133,10 @@ const JokeInvaders = () => {
     }, [mustShoot])
 
     useEffect(() => {
+        hit.current.addEventListener('canplaythrough', () => setSoundLoaded(true))
+        hit.current.addEventListener('ended', () => setSoundEnded(true))
+        hit.current.load()
+        hit2.current.load()
         return () => {
             clearInterval(shootInterval.current)
             clearInterval(detectInterval.current)
