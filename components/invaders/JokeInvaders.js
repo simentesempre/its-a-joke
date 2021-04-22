@@ -20,8 +20,6 @@ const JokeInvaders = () => {
     const [buttonText, setButtonText] = useState('Don\'t click here!')
     const [tilesDestroyed, setTilesDestroyed] = useState(0)
     const [shake, setShake] = useState(false)
-    const [soundLoaded, setSoundLoaded] = useState(false)
-    const [soundEnded, setSoundEnded] = useState(true)
 
     const handleDragStart = _ => {
         setMustShoot(true)
@@ -157,7 +155,7 @@ const JokeInvaders = () => {
         buttonX.current = getX()
     }, [tilesDestroyed])
 
-    return soundLoaded && (
+    return (
         <div id="joke-invaders" className={`joke-invaders ${ shake ? 'shake' : ''}`}>
             { tiles && <ComposedLogo tiles={tiles} /> }
             { bullets && bullets.map(bullet => <Bullet key={bullet.id} bullet={bullet} />) }
