@@ -15,6 +15,7 @@ const JokeInvaders = () => {
     const buttonX = useRef(false)
     const hit = new Audio('/sounds/invaders/hit.mp3')
     hit.addEventListener('canplaythrough', () => setSoundLoaded(true))
+    hit.load()
 
     const [windowSizes, setWindowSizes] = useState(false)
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
