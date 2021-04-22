@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/router'
 import lottie from 'lottie-web'
 
 import { createId, detectCollisions } from './helpers'
@@ -13,10 +12,7 @@ const JokeInvaders = () => {
     const shootInterval = useRef(false)
     const detectInterval = useRef(false)
     const buttonX = useRef(false)
-    const hit = useRef(new Audio('/sounds/invaders/hit.mp3'))
-    const hit2 = useRef(new Audio('/sounds/invaders/hit.mp3'))
     
-
     const [windowSizes, setWindowSizes] = useState(false)
     const [tiles, setTiles] = useState(Array.from({length: 48}, _ => ({ id: createId(), destroyed: false })))
     const [bullets, setBullets] = useState([])
@@ -59,12 +55,6 @@ const JokeInvaders = () => {
 
     const collisionCallback = (collidedTile, collidedBullet) => {
         shakeIt()
-        if(soundEnded) {
-            hit.current.play()
-            setSoundEnded(false)
-        } else {
-            hit2.current.play()
-        }
         setBullets(prevBulletts => {
             return prevBulletts.map( bullet => bullet.id === collidedBullet.id ? { ...bullet, destroyed: true } : bullet)
         })
@@ -133,10 +123,6 @@ const JokeInvaders = () => {
     }, [mustShoot])
 
     useEffect(() => {
-        hit.current.addEventListener('canplaythrough', () => setSoundLoaded(true))
-        hit.current.addEventListener('ended', () => setSoundEnded(true))
-        hit.current.load()
-        hit2.current.load()
         return () => {
             clearInterval(shootInterval.current)
             clearInterval(detectInterval.current)
