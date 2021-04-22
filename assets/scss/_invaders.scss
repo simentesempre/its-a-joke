@@ -30,6 +30,21 @@ $lines: 12;
     align-items: center;
     text-align: center;
 }
+@mixin grid($size, $bgSize) {
+    grid-template-columns: repeat(12, #{$size}px);
+    .tile {
+        width: #{$size}px;
+        height: #{$size}px;
+        background-size: #{$bgSize}px;
+        @for $r from 0 to $rows {
+            @for $l from 0 to $lines {
+                &:nth-child(#{ (($r * 12) + 1) + $l }) {
+                    background-position: -#{$size * $l}px -#{$size * $r}px;
+                }
+            }
+        }
+    }
+}
 
 @keyframes bulletMovement {
     0% {
@@ -124,39 +139,20 @@ $lines: 12;
         top: 20%;
         left: 50%;
         transform: translateX(-50%);
-        display: grid;
-        grid-template-columns: repeat(12, 25px);
+        display: grid;        
         .tile {
-            width:25px;
-            height:25px;
             background-image: url('/images/invaders/logo-png-600.png');
             background-repeat: no-repeat;
-            background-size: 300px;
-            @for $r from 0 to $rows {
-                @for $l from 0 to $lines {
-                    &:nth-child(#{ (($r * 12) + 1) + $l }) {
-                        background-position: -#{25 * $l}px -#{25 * $r}px;
-                    }
-                }
-            }
             &.destroyed {
                 background-image: none;
             }
         }
+        @include grid(20, 240);
+        @media only screen and (min-width: 400px) {
+            @include grid(25, 300);
+        }
         @media only screen and (min-width: 768px) {
-            grid-template-columns: repeat(12, 50px);
-            .tile {
-                width:50px;
-                height:50px;
-                background-size: 600px;
-                @for $r from 0 to $rows {
-                    @for $l from 0 to $lines {
-                        &:nth-child(#{ (($r * 12) + 1) + $l }) {
-                            background-position: -#{50 * $l}px -#{50 * $r}px;
-                        }
-                    }
-                }
-            } 
+            @include grid(50, 600); 
         }
     }
     .whatnow {

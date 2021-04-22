@@ -152,7 +152,7 @@ const JokeInvaders = () => {
             setButtonText('I\'m begging you!')
         }
         if(tilesDestroyed >= 35) {
-            setButtonText('NOOOOOOOO!!!')
+            setButtonText('NOOOOOO!!!')
         }
         if(checkAllTilesDestroyed()) {
             setButtonText('Let\'s talk')

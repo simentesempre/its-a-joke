@@ -9,19 +9,19 @@ const DraggableButton = ({
     buttonText
 }) => {
     const buttonProps = {
-        buttonText,
-        mustShoot
+        buttonText
     }
     return (
         <Draggable 
             axis="x" 
             bounds="parent" 
+            defaultClassNameDragging="isShooting"
             onStart={dragStartCallback}
             onStop={dragEndCallback}
             onDrag={dragCallback}
             defaultPosition={
                 {
-                    x: (windowSizes.width / 2 ) -70, 
+                    x: ( windowSizes.width / 2 ) - 84, 
                     y: ( windowSizes.height / 100 ) * 80
                 }
             }
@@ -32,14 +32,12 @@ const DraggableButton = ({
 }
 
 const TalkingButton = ({ 
-    buttonText, 
-    mustShoot, 
+    buttonText,
     ...rest
 }) => {
     return (
         <button 
             id="destroyer" 
-            className={`${mustShoot ? 'isShooting' : ''}`}
             {...rest}>
             {buttonText}
         </button> 
