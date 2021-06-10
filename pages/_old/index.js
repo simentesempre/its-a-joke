@@ -1,4 +1,4 @@
-import MetaHead from '../components/global/MetaHead'
+/* import MetaHead from '../components/global/MetaHead'
 import FullVideo from '../components/FullVideo'
 
 const Home = () => {
@@ -10,4 +10,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home */

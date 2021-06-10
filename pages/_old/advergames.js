@@ -1,4 +1,4 @@
-import MetaHead from '../components/global/MetaHead'
+/* import MetaHead from '../components/global/MetaHead'
 
 const Advergames = () => {
   return (
@@ -16,4 +16,4 @@ const Advergames = () => {
   )
 }
 
-export default Advergames
+export default Advergames */
