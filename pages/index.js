@@ -1,11 +1,13 @@
-import MetaHead from '../components/global/MetaHead'
-import FullVideo from '../components/FullVideo'
+import { MetaHead } from '../components/global/'
+import { JokeInvaders } from '../components/invaders/'
 
 const Home = () => {
   return (
     <>
       <MetaHead />
-      <FullVideo />
+      <div suppressHydrationWarning={true}>
+        { process.browser &&  <JokeInvaders /> }
+      </div>
     </>
   )
 }

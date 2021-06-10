@@ -1,5 +1,5 @@
-import { MetaHead } from '../../components/global/'
-import { InvaderContacts } from '../../components/invaders/'
+import { MetaHead } from '../components/global/'
+import { InvaderContacts } from '../components/invaders/'
 
 const Contacts = () => {
   return (

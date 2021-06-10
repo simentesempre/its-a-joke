@@ -50,7 +50,7 @@ const Contacts = () => {
         } else {
           setCreateAGame(false)
           setForm(defaultForm)
-          goTo('/invaders/thanks')
+          goTo('/thanks')
         }
     })
     .catch(err => {

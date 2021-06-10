@@ -26,7 +26,7 @@ const WhatNow = _ => {
                     What are we going to do now?
                 </p>
                 <p>
-                    <button onClick={() => router.push('/invaders/contacts')} className="talk">Ok, let's talk</button>
+                    <button onClick={() => router.push('/contacts')} className="talk">Ok, let's talk</button>
                 </p>
             </div>
         </div>
